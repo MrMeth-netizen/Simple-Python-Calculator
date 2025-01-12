@@ -1,0 +1,325 @@
+import math
+
+# Algebraic Functions
+
+# Function to solve a linear equation of the form ax + b = 0
+def solve_linear(a, b):
+    if a == 0:
+        if b == 0:
+            return "Infinite solutions"
+        else:
+            return "No solution"
+    else:
+        return -b / a
+
+# Function to solve a quadratic equation of the form ax^2 + bx + c = 0
+def solve_quadratic(a, b, c):
+    discriminant = b**2 - 4*a*c
+    if discriminant > 0:
+        x1 = (-b + discriminant**0.5) / (2*a)
+        x2 = (-b - discriminant**0.5) / (2*a)
+        return (x1, x2)
+    elif discriminant == 0:
+        x = -b / (2*a)
+        return (x,)
+    else:
+        return "No real solutions"
+
+# Function to solve cubic equation ax^3 + bx^2 + cx + d = 0 (real root only for simplicity)
+def solve_cubic(a, b, c, d):
+    # Using numpy's real cubic roots solver for simplicity
+    from numpy import roots
+    roots_list = roots([a, b, c, d])
+    real_roots = [root.real for root in roots_list if root.imag == 0]
+    return real_roots
+
+# Function to solve a system of linear equations (ax + by = c and dx + ey = f)
+def solve_system_of_linear(a, b, c, d, e, f):
+    determinant = a * e - b * d
+    if determinant == 0:
+        return "No unique solution"
+    else:
+        x = (c * e - b * f) / determinant
+        y = (a * f - c * d) / determinant
+        return (x, y)
+
+# Geometric Functions
+
+# Function to calculate the area of a circle
+def area_circle(radius):
+    return 3.14159 * radius**2
+
+# Function to calculate the area of a rectangle
+def area_rectangle(length, width):
+    return length * width
+
+# Function to calculate the area of a triangle
+def area_triangle(base, height):
+    return 0.5 * base * height
+
+# Function to calculate the perimeter of a rectangle
+def perimeter_rectangle(length, width):
+    return 2 * (length + width)
+
+# Function to calculate the perimeter of a circle
+def perimeter_circle(radius):
+    return 2 * 3.14159 * radius
+
+# Function to calculate the volume of a sphere
+def volume_sphere(radius):
+    return (4/3) * 3.14159 * radius**3
+
+# Function to calculate the volume of a cylinder
+def volume_cylinder(radius, height):
+    return 3.14159 * radius**2 * height
+
+# Function to calculate the surface area of a sphere
+def surface_area_sphere(radius):
+    return 4 * 3.14159 * radius**2
+
+# Function to calculate the surface area of a cylinder
+def surface_area_cylinder(radius, height):
+    return 2 * 3.14159 * radius * (radius + height)
+
+# Calculus Functions
+
+# Function to approximate the derivative of a function at a point x using the difference quotient
+def derivative(func, x, h=1e-5):
+    return (func(x + h) - func(x)) / h
+
+# Function to approximate the second derivative of a function at a point x using the difference quotient
+def second_derivative(func, x, h=1e-5):
+    return (func(x + h) - 2*func(x) + func(x - h)) / (h**2)
+
+# Function to approximate the integral of a function over the interval [a, b] using the trapezoidal rule
+def integral(func, a, b, n=1000):
+    h = (b - a) / n
+    total_area = (func(a) + func(b)) / 2
+    for i in range(1, n):
+        total_area += func(a + i * h)
+    return total_area * h
+
+# Function to approximate the integral using Simpson’s rule (more accurate than trapezoidal rule)
+def simpsons_rule(func, a, b, n=1000):
+    if n % 2 == 1:  # Ensure n is even
+        n += 1
+    h = (b - a) / n
+    total_area = func(a) + func(b)
+    for i in range(1, n, 2):
+        total_area += 4 * func(a + i * h)
+    for i in range(2, n-1, 2):
+        total_area += 2 * func(a + i * h)
+    return total_area * h / 3
+
+# Basic Arithmetic Functions
+
+# Function to perform basic arithmetic operations
+def basic_calculator(op, num1, num2):
+    if op == "add":
+        return num1 + num2
+    elif op == "subtract":
+        return num1 - num2
+    elif op == "multiply":
+        return num1 * num2
+    elif op == "divide":
+        if num2 != 0:
+            return num1 / num2
+        else:
+            return "Error: Division by zero"
+    else:
+        return "Invalid operation"
+
+# Main program
+def main():
+    print("Choose a type of calculation:")
+    print("1. Algebraic")
+    print("2. Geometric")
+    print("3. Calculus")
+    print("4. Basic Arithmetic (Addition, Subtraction, Multiplication, Division)")
+    
+    choice = input("Enter 1, 2, 3, or 4: ").strip()
+    
+    if choice == "1":
+        print("Choose an algebraic calculation:")
+        print("1. Solve linear equation (ax + b = 0)")
+        print("2. Solve quadratic equation (ax^2 + bx + c = 0)")
+        print("3. Solve cubic equation (ax^3 + bx^2 + cx + d = 0)")
+        print("4. Solve system of linear equations (ax + by = c, dx + ey = f)")
+        
+        algebra_choice = input("Enter 1, 2, 3, or 4: ").strip()
+        
+        if algebra_choice == "1":
+            a = float(input("Enter coefficient a: "))
+            b = float(input("Enter coefficient b: "))
+            solution = solve_linear(a, b)
+            print(f"Solution to {a}x + {b} = 0: {solution}")
+        
+        elif algebra_choice == "2":
+            a = float(input("Enter coefficient a: "))
+            b = float(input("Enter coefficient b: "))
+            c = float(input("Enter coefficient c: "))
+            solutions = solve_quadratic(a, b, c)
+            print(f"Solutions to {a}x^2 + {b}x + {c} = 0: {solutions}")
+        
+        elif algebra_choice == "3":
+            a = float(input("Enter coefficient a: "))
+            b = float(input("Enter coefficient b: "))
+            c = float(input("Enter coefficient c: "))
+            d = float(input("Enter coefficient d: "))
+            solutions = solve_cubic(a, b, c, d)
+            print(f"Real solutions to {a}x^3 + {b}x^2 + {c}x + {d} = 0: {solutions}")
+        
+        elif algebra_choice == "4":
+            a = float(input("Enter coefficient a: "))
+            b = float(input("Enter coefficient b: "))
+            c = float(input("Enter constant c: "))
+            d = float(input("Enter coefficient d: "))
+            e = float(input("Enter coefficient e: "))
+            f = float(input("Enter constant f: "))
+            solutions = solve_system_of_linear(a, b, c, d, e, f)
+            print(f"Solutions to system: {solutions}")
+        
+        else:
+            print("Invalid choice!")
+    
+    elif choice == "2":
+        print("Choose a geometric calculation:")
+        print("1. Area of a circle")
+        print("2. Area of a rectangle")
+        print("3. Area of a triangle")
+        print("4. Perimeter of a rectangle")
+        print("5. Perimeter of a circle")
+        print("6. Volume of a sphere")
+        print("7. Volume of a cylinder")
+        print("8. Surface area of a sphere")
+        print("9. Surface area of a cylinder")
+        
+        geometric_choice = input("Enter 1-9: ").strip()
+        
+        if geometric_choice == "1":
+            radius = float(input("Enter the radius of the circle: "))
+            area = area_circle(radius)
+            print(f"Area of the circle: {area}")
+        
+        elif geometric_choice == "2":
+            length = float(input("Enter the length of the rectangle: "))
+            width = float(input("Enter the width of the rectangle: "))
+            area = area_rectangle(length, width)
+            print(f"Area of the rectangle: {area}")
+        
+        elif geometric_choice == "3":
+            base = float(input("Enter the base of the triangle: "))
+            height = float(input("Enter the height of the triangle: "))
+            area = area_triangle(base, height)
+            print(f"Area of the triangle: {area}")
+        
+        elif geometric_choice == "4":
+            length = float(input("Enter the length of the rectangle: "))
+            width = float(input("Enter the width of the rectangle: "))
+            perimeter = perimeter_rectangle(length, width)
+            print(f"Perimeter of the rectangle: {perimeter}")
+        
+        elif geometric_choice == "5":
+            radius = float(input("Enter the radius of the circle: "))
+            perimeter = perimeter_circle(radius)
+            print(f"Perimeter (circumference) of the circle: {perimeter}")
+        
+        elif geometric_choice == "6":
+            radius = float(input("Enter the radius of the sphere: "))
+            volume = volume_sphere(radius)
+            print(f"Volume of the sphere: {volume}")
+        
+        elif geometric_choice == "7":
+            radius = float(input("Enter the radius of the cylinder: "))
+            height = float(input("Enter the height of the cylinder: "))
+            volume = volume_cylinder(radius, height)
+            print(f"Volume of the cylinder: {volume}")
+        
+        elif geometric_choice == "8":
+            radius = float(input("Enter the radius of the sphere: "))
+            surface_area = surface_area_sphere(radius)
+            print(f"Surface area of the sphere: {surface_area}")
+        
+        elif geometric_choice == "9":
+            radius = float(input("Enter the radius of the cylinder: "))
+            height = float(input("Enter the height of the cylinder: "))
+            surface_area = surface_area_cylinder(radius, height)
+            print(f"Surface area of the cylinder: {surface_area}")
+        
+        else:
+            print("Invalid choice!")
+    
+    elif choice == "3":
+        print("Choose a calculus operation:")
+        print("1. Differentiate a function at a point")
+        print("2. Integrate a function over an interval using Trapezoidal Rule")
+        print("3. Integrate a function over an interval using Simpson’s Rule")
+        print("4. Approximate second derivative")
+        
+        calculus_choice = input("Enter 1-4: ").strip()
+        
+        # Define a function for testing
+        def test_function(x):
+            return x**2 + 3*x + 2
+        
+        if calculus_choice == "1":
+            x = float(input("Enter the point at which to differentiate: "))
+            derivative_value = derivative(test_function, x)
+            print(f"The derivative of the function at x = {x} is approximately {derivative_value}")
+        
+        elif calculus_choice == "2":
+            a = float(input("Enter the lower bound of the interval: "))
+            b = float(input("Enter the upper bound of the interval: "))
+            integral_value = integral(test_function, a, b)
+            print(f"The integral of the function from {a} to {b} is approximately {integral_value}")
+        
+        elif calculus_choice == "3":
+            a = float(input("Enter the lower bound of the interval: "))
+            b = float(input("Enter the upper bound of the interval: "))
+            integral_value = simpsons_rule(test_function, a, b)
+            print(f"The integral of the function from {a} to {b} using Simpson's Rule is approximately {integral_value}")
+        
+        elif calculus_choice == "4":
+            x = float(input("Enter the point at which to approximate the second derivative: "))
+            second_derivative_value = second_derivative(test_function, x)
+            print(f"The second derivative of the function at x = {x} is approximately {second_derivative_value}")
+        
+        else:
+            print("Invalid choice!")
+    
+    elif choice == "4":
+        print("Choose an arithmetic operation:")
+        print("1. Addition")
+        print("2. Subtraction")
+        print("3. Multiplication")
+        print("4. Division")
+        
+        arithmetic_choice = input("Enter 1, 2, 3, or 4: ").strip()
+        
+        num1 = float(input("Enter the first number: "))
+        num2 = float(input("Enter the second number: "))
+        
+        if arithmetic_choice == "1":
+            result = basic_calculator("add", num1, num2)
+            print(f"{num1} + {num2} = {result}")
+        
+        elif arithmetic_choice == "2":
+            result = basic_calculator("subtract", num1, num2)
+            print(f"{num1} - {num2} = {result}")
+        
+        elif arithmetic_choice == "3":
+            result = basic_calculator("multiply", num1, num2)
+            print(f"{num1} * {num2} = {result}")
+        
+        elif arithmetic_choice == "4":
+            result = basic_calculator("divide", num1, num2)
+            print(f"{num1} / {num2} = {result}")
+        
+        else:
+            print("Invalid choice!")
+    
+    else:
+        print("Invalid choice! Please enter 1, 2, 3, or 4.")
+
+if __name__ == "__main__":
+    main()
